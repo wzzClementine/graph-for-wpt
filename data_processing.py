@@ -6,16 +6,13 @@ file_path = "all_simulation_results.csv"
 
 data = pd.read_csv(file_path)
 
-# 增加一列 phase_shift_angle_deg，计算 phase_shift_angle 的角度值
-data['phase_shift_angle_deg'] = np.degrees(data['phase_shift_angle'])
+# 删除 DutyValue 小于 0.1 的数据
+filtered_data = data[data['DutyValue'] >= 0.1]
 
-# 将 'phase_shift_angle_deg' 列移动到 'phase_shift_angle' 列的后面
-columns = data.columns.tolist()
-columns.insert(columns.index('phase_shift_angle') + 1, columns.pop(columns.index('phase_shift_angle_deg')))
-data = data[columns]
+# 保存更新后的数据到原始文件
+filtered_data.to_csv(file_path, index=False)
 
-# Save the modified data to a new file
-data.to_csv(file_path, index=False)
+
 
 
 
